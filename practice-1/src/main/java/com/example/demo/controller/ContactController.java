@@ -12,45 +12,34 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import com.example.demo.entity.Contact;
 import com.example.demo.form.ContactForm;
-import com.example.demo.repository.ContactRepository;
+import com.example.demo.service.ContactService;
 
 @Controller
-public class ContactController{
-	
-	@Autowired //自動で必要なクラス、メソッドをとってきてくれる？必要な部品を探す手間が省ける？
-	//インターフェース
-	private ContactRepository contactRepository;
-	
-	//Spring MVCでは、routerはControllerで書いて処理をする。
-	//'/contact'にGETリクエストが来たら、ここのコードを実行する。
-	@GetMapping("/contact")
-	public String contact(Model model) {
-		//ContactForm.javaの内容が実行される。
-		//Attribute: 名前:値, viewに渡すデータ項目 (th:object="${contactForm})
-		model.addAttribute("contactForm", new ContactForm());
-		
-		// templateディレクトリにあるcontactに該当するファイルを返すようになっている。(contact.html)
-		return "contact";
-		
-		//つまり、spring MVCは、ControllerでどのModel, Viewを呼び出すか自ら指定する必要がある。
-	}
+public class ContactController {
+    @Autowired
+    private ContactService contactService;
 
-    
-	@PostMapping("/contact")
-	public String contact(@Validated @ModelAttribute("contactForm") ContactForm contactForm, BindingResult errorResult, HttpServletRequest request) {
-		if(errorResult.hasErrors()) {
-			return "contact";
-		}
-		
-		HttpSession session = request.getSession();
-		session.setAttribute("contactForm", contactForm);
-		
-		return "redirect:/contact/confirm";
-	}
-	
-	@GetMapping("/contact/confirm")
+    @GetMapping("/contact")
+    public String contact(Model model) {
+        model.addAttribute("contactForm", new ContactForm());
+
+        return "contact";
+    }
+
+    @PostMapping("/contact")
+    public String contact(@Validated @ModelAttribute("contactForm") ContactForm contactForm, BindingResult errorResult, HttpServletRequest request) {
+        if (errorResult.hasErrors()) {
+          return "contact";
+        }
+
+        HttpSession session = request.getSession();
+        session.setAttribute("contactForm", contactForm);
+
+        return "redirect:/contact/confirm";
+    }
+
+    @GetMapping("/contact/confirm")
     public String confirm(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
 
@@ -58,81 +47,34 @@ public class ContactController{
         model.addAttribute("contactForm", contactForm);
         return "confirmation";
     }
-	
-	 @PostMapping("/contact/register")
-	    public String register(Model model, HttpServletRequest request) {
 
-	        HttpSession session = request.getSession();
-	        //以前の通信でcontactFormへ入力したデータを取得するために、session
-	        ContactForm contactForm = (ContactForm) session.getAttribute("contactForm");
+    @PostMapping("/contact/register")
+    public String register(Model model, HttpServletRequest request) {
 
-	        Contact contact = new Contact();
-	        contact.setLastName(contactForm.getLastName());
-	        contact.setFirstName(contactForm.getFirstName());
-	        contact.setEmail(contactForm.getEmail());
-	        contact.setPhone(contactForm.getPhone());
-	        contact.setZipCode(contactForm.getZipCode());
-	        contact.setAddress(contactForm.getAddress());
-	        contact.setBuildingName(contactForm.getBuildingName());
-	        contact.setContactType(contactForm.getContactType());
-	        contact.setBody(contactForm.getBody());
+        HttpSession session = request.getSession();
+        ContactForm contactForm = (ContactForm) session.getAttribute("contactForm");
 
-	        contactRepository.save(contact);
+        contactService.saveContact(contactForm);
 
-	        return "redirect:/contact/complete";
-	    }
-	 
-	 @GetMapping("/contact/complete")
-	    public String complete(Model model, HttpServletRequest request) {
+        return "redirect:/contact/complete";
+    }
 
-	        if (request.getSession(false) == null) {
-	          return "redirect:/contact";
-	        }
+    @GetMapping("/contact/complete")
+    public String complete(Model model, HttpServletRequest request) {
 
-	        HttpSession session = request.getSession();
-	        ContactForm contactForm = (ContactForm) session.getAttribute("contactForm");
-	        model.addAttribute("contactForm", contactForm);
+        if (request.getSession(false) == null) {
+          return "redirect:/contact";
+        }
 
-	        session.invalidate();
+        HttpSession session = request.getSession();
+        ContactForm contactForm = (ContactForm) session.getAttribute("contactForm");
+        model.addAttribute("contactForm", contactForm);
 
-	        return "completion";
-	    }
-	
+        session.invalidate();
+
+        return "completion";
+      }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
