@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> 
+<head>
+<meta charset="UTF-8">
+<title>お問い合わせ一覧</title>
+</head>
+<body>
+<h1>お問い合わせ一覧</h1>
+
+<div th:each="contacted_user : ${getAllContacts}">
+	<p>お問い合わせID: <span th:text="${contacted_user.id}"></span></p>
+	<p>姓: <span th:text="${contacted_user.lastName}"></span></p>
+	<p>名: <span th:text="${contacted_user.firstName}"></span></p>
+	<p>お問い合わせ種別: <span th:text="${contacted_user.contactType}"></span></p>
+	<p>作成日時: <span th:text="${contacted_user.createdAt}"></span></p>
+	<p>更新日時: <span th:text="${contacted_user.updatedAt}"></span></p>
+
+	<p>------------------------------</p>
+</div>
+</body>
+</html>

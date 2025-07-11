@@ -1,5 +1,7 @@
 package com.example.demo.entity;
 
+import java.sql.Timestamp;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -8,7 +10,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import lombok.Data;
-
+//DBとコードで接続するファイル//
+//これDAO?
 
 //Entity: SQLを書かなくても、コードで処理できるようにするようなやつ。
 @Entity //Entityクラスであるという定義
@@ -51,4 +54,16 @@ public class Contact {
 
     @Column(name = "body", nullable = false)
     private String body;
+    
+    @Column(name = "created_at", nullable = false)
+    private Timestamp createdAt;
+    
+    @Column(name = "updated_at", nullable = false)
+    private Timestamp updatedAt;
+    
+
+    
+    
+    
+    
 }
