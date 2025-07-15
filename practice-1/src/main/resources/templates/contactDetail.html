@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"> 
+<head>
+<meta charset="UTF-8">
+<title>詳細</title>
+</head>
+<body>
+<h1>お問い合わせ詳細</h1>
+	
+
+<p>お問い合わせID: <span th:text="${getContact.id}"></span></p>
+<p>姓: <span th:text="${getContact.lastName}"></span>
+<p>名: <span th:text="${getContact.firstName}"></span></p>
+<p>電話番号: <span th:text="${getContact.phone}"></span></p>
+<p>郵便番号: <span th:text="${getContact.zipCode}"></span></p>
+<p>住所: <span th:text="${getContact.address}"></span></p>
+<p>建物名: <span th:text="${getContact.buildingName}"></span></p>
+
+<p>お問い合わせ種別: <span th:text="${getContact.contactType}"></span></p>
+<p>作成日時: <span th:text="${getContact.createdAt}"></span></p>
+<p>更新日時: <span th:text="${getContact.updatedAt}"></span></p>
+
+<a th:href="@{/admin/contact/{id}/edit(id=${getContact.id})}" class="button-style">
+    編集する
+</a>
+</div>
+</body>
+</html>

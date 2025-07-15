@@ -8,8 +8,6 @@ import jakarta.validation.constraints.Size;
 
 import lombok.Data;
 //Form入力のvalidationを設定するファイル//
-//これDAO?
-//HTMLのフォーム用
 
 @Data
 public class ContactForm {
@@ -42,5 +40,6 @@ public class ContactForm {
     
 	@NotBlank
 	private String body;
+	
 	
 }
