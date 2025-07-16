@@ -1,11 +1,31 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-	<h1>signup page here</h1>
+<html xmlns:th="http://www.thymeleaf.org">
 
-</body>
-</html>
+<head>
+	<meta charset="UTF-8">
+	<title>sign up</title>
+</head>
+
+<body>
+
+	<h1>Signup</h1>
+	<!-- adminForm: controllerで、/signupパスで定義されているmodelの変数を指している。-->
+	<form th:action="@{/signup}" th:object="${adminForm}" method="post">
+		<div>
+			<p>姓</p>
+			<input type="text" th:field="*{lastName}">
+			<span th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}" style="color:red;"></span>
+
+
+			<p>名</p>
+			<input type="text" th:field="*{firstName}">
+			<span th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}" style="color:red;"></span>
+
+			<p>Email</p>
+			<input type="text" th:field="*{email}">
+			<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red;"></span>
+			<p>password</p>
+			<input type="text" th:field="*{password}">
+			<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red;"></span>
+		</div>
+	</form>

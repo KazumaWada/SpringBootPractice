@@ -23,53 +23,32 @@ import lombok.Data;
 @EntityListeners(AuditingEntityListener.class) //日時の自動入力用
 public class Admin {
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    
+	@GeneratedValue(strategy = GenerationType.AUTO)
+
 	@Column(name = "id")
-    private Long id;
-	
+	private Long id;
+
 	@Column(name = "last_name", nullable = false)
 	private String lastName;
-	
+
 	@Column(name = "first_name", nullable = false)
 	private String firstName;
-	
+
 	@Column(name = "email", nullable = false)
 	private String email;
-	
+
 	@Column(name = "password", nullable = false)
 	private String password;
-	
+
 	@Column(name = "current_sign_in_at", nullable = false)
 	private String currentSignInAt;
-	
+
 	@CreatedDate
 	@Column(name = "created_at", nullable = false, updatable = false)
 	private LocalDateTime createdAt;
-	
+
 	@LastModifiedDate
 	@Column(name = "updated_at", nullable = false)
 	private LocalDateTime updatedAt;
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 }
