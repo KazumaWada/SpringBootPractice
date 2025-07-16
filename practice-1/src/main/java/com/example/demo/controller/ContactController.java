@@ -20,7 +20,7 @@ import com.example.demo.service.ContactService;
 
 @Controller
 public class ContactController {
-	//頻繁に使うので、コメントアウトで保持
+	// 頻繁に使うので、コメントアウトで保持
 	//private static final Logger logger = LoggerFactory.getLogger(ContactController.class);
 
     @Autowired  
@@ -29,9 +29,7 @@ public class ContactController {
     @GetMapping("/contact")
     public String contact(Model model) {
     	
-    	//entityのmodelにcontactFormを貼っている？
         model.addAttribute("contactForm", new ContactForm());
-        //viewを返す。
         return "contact";
     }
 
@@ -100,7 +98,7 @@ public class ContactController {
         return "completion";
       }
     
-    
+    // 既にDBから取ってきて変数に格納してあるから、ここで考えるのはhttpとかuri、変数
     @GetMapping("/admin/contacts")
     public String contacts(Model model) {    	
     	
@@ -108,11 +106,11 @@ public class ContactController {
     	return "contacts";
     }
     
-    //詳細ページ
+    // 詳細ページ
     //https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/web.html#mvc-ann-requestmapping
     @GetMapping("/admin/contact/{id}")
-    //@ResponseBodyこれを書くと自動的にmappinngしてくれる？？後で確認。
-    public String contactDetail(Model model, @PathVariable Long id) { //@PathVariable: https://www.baeldung.com/spring-pathvariable
+    // @ResponseBody: JSON,文字列を返す。mappingはしない。
+    public String contactDetail(Model model, @PathVariable Long id) { // @PathVariable: https://www.baeldung.com/spring-pathvariable
     	
     	Contact contact = contactService.getContactById(id);
       	model.addAttribute("getContact", contact);
@@ -120,7 +118,6 @@ public class ContactController {
     	return "contactDetail";
     }
     
-    //maybe later
     @GetMapping("/admin/contact/{id}/edit")
     public String contactEdit(Model model, @PathVariable Long id) {
     	
@@ -132,7 +129,7 @@ public class ContactController {
     
     @PostMapping("/admin/contact/{id}/edit")
     public String contactEdit(@Validated @ModelAttribute("contactForm") ContactForm contactForm, @PathVariable Long id, BindingResult errorResult, HttpServletRequest request) {
-    	//@validationの通過
+    	// @validationの通過
     	if (!errorResult.hasErrors()) {
     		contactService.updateContact(contactForm, id);
     		 return "redirect:/admin/contact/" + id;

@@ -65,11 +65,5 @@ public class Contact {
     @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
-   
-    
-
-    
-    
-    
-    
+  
 }
