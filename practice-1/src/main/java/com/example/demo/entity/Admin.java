@@ -40,6 +40,7 @@ public class Admin {
 	@Column(name = "password", nullable = false)
 	private String password;
 
+	@CreatedDate
 	@Column(name = "current_sign_in_at", nullable = false)
 	private String currentSignInAt;
 

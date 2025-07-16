@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>user registerd</title>
+</head>
+
+<body>
+	<h1>新規登録完了しました!</h1>
+	<h3>内容の確認</h3>
+	<p>姓: <span th:text="${adminForm.lastName}"></span></p>
+	<p>名: <span th:text="${adminForm.firstName}"></span></p>
+	<p>メールアドレス: <span th:text="${adminForm.email}"></span></p>
+</body>
+
+</html>
