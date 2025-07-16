@@ -9,6 +9,10 @@ import com.example.demo.form.ContactForm;
 public interface ContactService {
 
     void saveContact(ContactForm contactForm);
+    void updateContact(ContactForm contactForm, Long id);
+    void deleteContact(ContactForm contactForm, Long id);
     List<Contact> getAllContacts();
+	Contact getContactById(Long id);
+    
 
 }

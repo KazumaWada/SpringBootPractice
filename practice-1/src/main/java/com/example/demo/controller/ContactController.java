@@ -10,25 +10,26 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import com.example.demo.entity.Contact;
 import com.example.demo.form.ContactForm;
 import com.example.demo.service.ContactService;
 
-//httpを書くか書かないか、「状態を保持する必要があるかどうか」
 
 @Controller
 public class ContactController {
-    @Autowired
+	// 頻繁に使うので、コメントアウトで保持
+	//private static final Logger logger = LoggerFactory.getLogger(ContactController.class);
+
+    @Autowired  
     private ContactService contactService;
 
     @GetMapping("/contact")
     public String contact(Model model) {
-    	//多分、アプリケーション内のファイルだけで表示できるから、httpは書いていないのかも。
     	
-    	//entityのmodelにcontactFormを貼っている？
         model.addAttribute("contactForm", new ContactForm());
-        //viewを返す。
         return "contact";
     }
 
@@ -50,7 +51,7 @@ public class ContactController {
 
     @GetMapping("/contact/confirm")
     public String confirm(Model model, HttpServletRequest request) {
-    	//セッション自体を取得している
+    	//セッション自体を取得
         HttpSession session = request.getSession();
         
         //contactFormに保存されたセッションデータを取得
@@ -97,23 +98,52 @@ public class ContactController {
         return "completion";
       }
     
-    
-    
-    //今度はDBから取ってきて、それを表示する。だからhttpは書かなくていいのかも？    
+    // 既にDBから取ってきて変数に格納してあるから、ここで考えるのはhttpとかuri、変数
     @GetMapping("/admin/contacts")
-    public String contacts(Model model) {
-    	//毎回使われるこの引数の'model'は、contactFormのモデルではなく、spring bootがcontroller内の処理を"viewに渡すための箱"として機能している。
-    	//だから、DBのmodelとは全く異なる。
+    public String contacts(Model model) {    	
     	
-    	//一連の流れ//
-    	//modelのデータの形をマッピングはする必要あるのかな？
-    	//serviceで取ってきたデータをそこに当てて、"getAllContacts"はview側で使う変数っぽい？
     	model.addAttribute("getAllContacts", contactService.getAllContacts());
-    	
-    	
-    	//その変数をviewに仮引数なりなんなりに詰めて送る
-
     	return "contacts";
+    }
+    
+    // 詳細ページ
+    //https://docs.spring.io/spring-framework/docs/5.3.x/reference/html/web.html#mvc-ann-requestmapping
+    @GetMapping("/admin/contact/{id}")
+    // @ResponseBody: JSON,文字列を返す。mappingはしない。
+    public String contactDetail(Model model, @PathVariable Long id) { // @PathVariable: https://www.baeldung.com/spring-pathvariable
+    	
+    	Contact contact = contactService.getContactById(id);
+      	model.addAttribute("getContact", contact);
+    	    
+    	return "contactDetail";
+    }
+    
+    @GetMapping("/admin/contact/{id}/edit")
+    public String contactEdit(Model model, @PathVariable Long id) {
+    	
+    	Contact contact = contactService.getContactById(id);
+      	model.addAttribute("getContact", contact);
+    	
+    	return "contactEdit";
+    }
+    
+    @PostMapping("/admin/contact/{id}/edit")
+    public String contactEdit(@Validated @ModelAttribute("contactForm") ContactForm contactForm, @PathVariable Long id, BindingResult errorResult, HttpServletRequest request) {
+    	// @validationの通過
+    	if (!errorResult.hasErrors()) {
+    		contactService.updateContact(contactForm, id);
+    		 return "redirect:/admin/contact/" + id;
+          }else {
+        	return "redirect:/admin/contacts";
+          }
+    }
+    
+    @PostMapping("/admin/contact/{id}/delete")
+    public String deleteContact(@PathVariable Long id, ContactForm contactForm) {
+    	
+    	contactService.deleteContact(contactForm, id);
+    	
+    	return "redirect:/admin/contacts";
     }
     
 }

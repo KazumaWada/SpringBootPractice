@@ -1,22 +1,25 @@
 package com.example.demo.entity;
 
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;//日時の自動入力
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
-import lombok.Data;
-//DBとコードで接続するファイル//
-//これDAO?
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-//Entity: SQLを書かなくても、コードで処理できるようにするようなやつ。
+import lombok.Data;
+
 @Entity //Entityクラスであるという定義
 @Data
 @Table(name = "contacts")
+@EntityListeners(AuditingEntityListener.class) //日時の自動入力用
 public class Contact {
     @Id//primary keyの定義
     //primary keyの生成方法を指定する(@idと@GeneratedValueはセット)
@@ -55,15 +58,12 @@ public class Contact {
     @Column(name = "body", nullable = false)
     private String body;
     
-    @Column(name = "created_at", nullable = false)
-    private Timestamp createdAt;
+    @CreatedDate 
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private LocalDateTime createdAt; 
     
+    @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
-    private Timestamp updatedAt;
-    
-
-    
-    
-    
-    
+    private LocalDateTime updatedAt;
+  
 }
