@@ -1,10 +1,10 @@
-create table admins(
-id int AUTO_INCREMENT primary key,
-last_name varchar(255) not null,
-first_name varchar(255) not null,
-email varchar(255) not null unique,
-password varchar(255) not null,
-current_sign_in_at timestamp null,
-created_at timestamp not null default current_timestamp,
-updated_at timestamp not null default current_timestamp
+CREATE TABLE admins (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    last_name VARCHAR(255) NOT NULL,
+    first_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    current_sign_in_at TIMESTAMP NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
 );

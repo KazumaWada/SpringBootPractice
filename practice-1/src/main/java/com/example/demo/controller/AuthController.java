@@ -20,7 +20,13 @@ public class AuthController {
 
 	@Autowired
 	private AdminService adminService;
+	
+	@GetMapping("/")
+	public String home() {
 
+		return "home";
+	}
+	
 	@GetMapping("/signup")
 	public String signup(Model model) {
 
@@ -57,7 +63,7 @@ public class AuthController {
 
 	@GetMapping("/signin")
 	public String signin() {
-		// NOTE: Spring Security実装時に動的の処理を書く。
+		// TODO: Spring Security実装時に動的の処理を書く。
 		return "signin";
 	}
 }
