@@ -7,18 +7,18 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 import lombok.Data;
-//Form入力のvalidationを設定するファイル//
+// Form入力のvalidationを設定するファイル(htmlのFormからデータを受け取る際のマッピング)
 
 @Data
 public class ContactForm {
-	@NotBlank //Null、空文字ではないこと
+	@NotBlank // Null、空文字ではないこと
 	private String lastName;
 	
 	@NotBlank
     private String firstName;
 	
 	@NotBlank
-	  @Email //正しいメールアドレス形式であること
+	  @Email // 正しいメールアドレス形式であること
     private String email;
 	
 	@NotBlank
@@ -35,7 +35,7 @@ public class ContactForm {
 	@NotBlank
     private String buildingName;
 	
-	@NotEmpty //空文字のスペースでもok
+	@NotEmpty // 空文字のスペースでもok
     private String contactType;
     
 	@NotBlank
