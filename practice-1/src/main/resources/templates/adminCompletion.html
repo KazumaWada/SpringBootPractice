@@ -7,11 +7,8 @@
 </head>
 
 <body>
-	<h1>新規登録完了しました!</h1>
-	<h3>内容の確認</h3>
-	<p>姓: <span th:text="${adminForm.lastName}"></span></p>
-	<p>名: <span th:text="${adminForm.firstName}"></span></p>
-	<p>メールアドレス: <span th:text="${adminForm.email}"></span></p>
+	<h1>Admin新規登録完了しました!</h1>
+	<a th:href="@{/admin/signin}">ログインへ進む</a>
 </body>
 
 </html>

@@ -7,10 +7,9 @@
 </head>
 
 <body>
-
 	<h1>Signup(新規登録)</h1>
 	<!-- adminForm: controllerで、/signupパスで定義されているmodelの変数を指している。-->
-	<form th:action="@{/signup}" th:object="${adminForm}" method="post">
+	<form th:action="@{/admin/signup}" th:object="${adminForm}" method="post">
 		<div>
 			<p>姓</p>
 			<input type="text" th:field="*{lastName}">
@@ -28,5 +27,8 @@
 			<input type="text" th:field="*{password}">
 			<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red;"></span>
 		</div>
+		<!-- NOTE: @EnableWebSecurityでcsrfが埋め込まれるらしいが、機能していないので直で書いている--> 
+		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 		<input type="submit" value="登録する">
 	</form>
+	<a th:href="@{/admin/signin}">既にアカウントを持っている</a>
