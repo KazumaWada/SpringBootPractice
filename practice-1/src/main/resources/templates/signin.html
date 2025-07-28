@@ -9,15 +9,26 @@
 <body>
 
 	<h1>Signin</h1>
-
-	<form method="post">
+	
+	<div th:if="${param.error}" style="color: red;">
+		formLoginによってなんらかのエラーを検出しました。
+	</div>
+	
+	<!-- NOTE: これって、adminFormのemailとpassword以外はnull許容しなきゃエラーになる感じ？？ -->
+	<form th:action="@{/admin/signin}" th:object="${adminForm}" method="post">
 		<div>
 			<p>Email</p>
-			<input type="text">
+			<input type="text" th:field="*{email}">
+			<span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:red;"></span>
+
 			<p>password</p>
-			<input type="text">
+			<input type="text" th:field="*{password}">
+			<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:red;"></span>
+
 		</div>
+		<input type="submit" value="ログインする">
 	</form>
+	<a th:href="@{/admin/signup}">新規登録の方はこちらから</a>
 </body>
 
 </html>

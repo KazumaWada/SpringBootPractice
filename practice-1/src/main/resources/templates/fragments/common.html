@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>共通部分</title>
+</head>
+<body>
+
+<!--login-->
+<div th:fragment="logout">
+	<!--aタグだと、GETになってしまうから注意-->
+	<form th:action="@{/logout}" method="post">
+	      <button type="submit">ログアウト</button>
+	</form>
+</div>
+
+</body>
+</html>

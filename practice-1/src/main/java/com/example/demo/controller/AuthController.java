@@ -1,9 +1,7 @@
 package com.example.demo.controller;
 
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,22 +9,22 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.form.AdminForm;
 import com.example.demo.service.AdminService;
 
 @Controller
+@RequestMapping("/admin")
 public class AuthController {
 
 	@Autowired
 	private AdminService adminService;
 	
-	@GetMapping("/")
-	public String home() {
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
-		return "home";
-	}
-	
+
 	@GetMapping("/signup")
 	public String signup(Model model) {
 
@@ -35,29 +33,31 @@ public class AuthController {
 	}
 
 	@PostMapping("/signup")
-	public String signup(@Validated @ModelAttribute("adminForm") AdminForm adminForm, BindingResult errorResult,
-			HttpServletRequest request) {
-		
+	public String signup(@Validated @ModelAttribute("adminForm") AdminForm adminForm, BindingResult errorResult) {
+
 		if (errorResult.hasErrors()) {
 			return "signup";
 		}
-		
+
+		// passwordのhash化
+		String encodedPassword = passwordEncoder.encode(adminForm.getPassword());
+		adminForm.setPassword(encodedPassword);
 		adminService.saveAdmin(adminForm);
-		
-		HttpSession session = request.getSession();
-		session.setAttribute("adminForm", adminForm);
-		
+
 		return "redirect:/admin/complete";
 	}
 
-	@GetMapping("/admin/complete")
-	public String adminComplete(Model model, HttpServletRequest request) {
+	@GetMapping("/signin")
+	public String signin(Model model) {
+		model.addAttribute("adminForm", new AdminForm());
 
-		HttpSession session = request.getSession();
+		return "signin";
+	}
+	// NOTE: @PostMapping("/admin/signin")Spring Securityが処理してくれるから、書かなくていい。
 
-		AdminForm adminForm = (AdminForm) session.getAttribute("adminForm");
-		model.addAttribute("adminForm", adminForm);
-
+	@GetMapping("/complete")
+	public String adminComplete() {
+		//NOTE: もし今度新規登録完了者のデータを表示する場合があったら、SecurityContextHolderって言う場所に認証されたUserの情報が保管されているから、それをmodelに突っ込む。
 		return "adminCompletion";
 	}
 
@@ -66,4 +66,5 @@ public class AuthController {
 		// TODO: Spring Security実装時に動的の処理を書く。
 		return "signin";
 	}
+
 }

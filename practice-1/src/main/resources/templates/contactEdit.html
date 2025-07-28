@@ -87,11 +87,15 @@
 		<input type="submit" value="確認">
 	</form>
 
+	<form th:action="@{/admin/contact/{id}/delete(id=${getContact.id})}" th:object="${getContact}" method="post">
+		<button>削除する</button>
+	</form>
 
 	<form th:action="@{/admin/contact/{id}/delete(id=${getContact.id})}" th:object="${getContact}" method="post">
 		<button>削除する</button>
 	</form>
 
+	<div th:replace="fragments/common :: logout"></div>
 </body>
 
 </html>

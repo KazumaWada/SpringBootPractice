@@ -1,27 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"> 
+<html xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>お問い合わせ一覧</title>
+	<meta charset="UTF-8">
+	<title>お問い合わせ一覧</title>
 </head>
+
 <body>
-<h1>お問い合わせ一覧</h1>
+	<h1>お問い合わせ一覧</h1>
 
-<div th:each="contacted_user : ${getAllContacts}">
-	<a th:href="@{/admin/contact/{id}(id=${contacted_user.id})}"><!--https://www.thymeleaf.org/doc/articles/standardurlsyntax.html-->
-	<p>お問い合わせID: <span th:text="${contacted_user.id}"></span></p>
-	<p>姓: <span th:text="${contacted_user.lastName}"></span></p>
-	<p>名: <span th:text="${contacted_user.firstName}"></span></p>
-	<p>お問い合わせ種別: <span th:text="${contacted_user.contactType}"></span></p>
-	<!--日時の書き方: https://kumagoro-95.hatenablog.com/entry/2021/02/22/181053-->
-	<p>作成日時: <span th:text="${#temporals.format(contacted_user.createdAt, 'yyyy/MM/dd HH:mm:ss')}"></span></p>
-	<p>更新日時: <span th:text="${#temporals.format(contacted_user.updatedAt, 'yyyy/MM/dd HH:mm:ss')}"></span></p>
 
-	</a>
-	
-	<p>------------------------------</p>
-</div>
+	<div th:each="contacted_user : ${getAllContacts}">
+
+		<p>お問い合わせID: <span th:text="${contacted_user.id}"></span></p>
+		<p>姓: <span th:text="${contacted_user.lastName}"></span></p>
+		<p>名: <span th:text="${contacted_user.firstName}"></span></p>
+		<p>お問い合わせ種別: <span th:text="${contacted_user.contactType}"></span></p>
+		<p>作成日時: <span th:text="${#temporals.format(contacted_user.createdAt, 'yyyy/MM/dd HH:mm:ss')}"></span></p>
+		<p>更新日時: <span th:text="${#temporals.format(contacted_user.updatedAt, 'yyyy/MM/dd HH:mm:ss')}"></span></p>
+		<a th:href="@{/admin/contact/{id}(id=${contacted_user.id})}">詳細へ</a>
+		<p>------------------------------</p>
+	</div>
+
+	<div th:replace="fragments/common :: logout"></div>
+
 </body>
+
 </html>
 
 

@@ -22,9 +22,8 @@ import lombok.Data;
 @EntityListeners(AuditingEntityListener.class) //日時の自動入力用
 public class Contact {
     @Id//primary keyの定義
-    //primary keyの生成方法を指定する(@idと@GeneratedValueはセット)
-    //optionは、主にstrategyとgenerator
-    //これは、自動でどのDBか解釈してそれに最適な生成方法をやってくれる
+    // primary keyの生成方法を指定する(@idと@GeneratedValueはセット)
+    // これは、自動でどのDBか解釈してそれに最適な生成方法をやってくれる
     @GeneratedValue(strategy=GenerationType.AUTO)
     
     //@Column:データベースの列の属性を生成するため
@@ -64,6 +63,7 @@ public class Contact {
     
     @LastModifiedDate
     @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-  
+
+    private LocalDateTime updatedAt;   
+
 }
